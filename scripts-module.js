@@ -146,7 +146,7 @@ const fetchPage = async url => {
   catch(error) {
     showContainer('init');
     console.error('Failed To Get Page', error);
-    alert(`Failed To Get Page\n\n${error.error}`);
+    location.href = '/';  // Redirect To Index
   }
 };
 
