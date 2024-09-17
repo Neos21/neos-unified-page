@@ -123,8 +123,12 @@ const fetchPage = async (url, isPushState) => {
     if(isPushState) {
       const newUrl = new URL(location.href);
       newUrl.searchParams.set('u', url);
-      if(newUrl.hash === '') newUrl.hash = '';  // Remove `#`
+      newUrl.hash = '';  // Remove Hash
       history.pushState(null, '', newUrl);
+      console.log('History Push State', { newUrl });
+    }
+    else {
+      console.log('History No State');
     }
     
     if(location.hash) document.querySelector(decodeURIComponent(location.hash))?.scrollIntoView();
@@ -145,13 +149,30 @@ const fetchPage = async (url, isPushState) => {
 // DOMContentLoaded
 // ================================================================================
 
-window.addEventListener('popstate', () => {
+let isHashChanged = true;
+
+window.addEventListener('hashchange', () => {
+  isHashChanged = true;
+  console.log('On Hash Change', { isHashChanged });
+});
+
+window.addEventListener('popstate', event => {
+  console.log('On Pop State', { isHashChanged });
+  if(isHashChanged) {
+    event.preventDefault();
+    isHashChanged = false;
+    console.log('Is Hash Changed, Reset Flag', { isHashChanged });
+    return false;
+  }
+  
   const targetUrl = new URL(location.href);
   const newUrl = targetUrl.searchParams.get('u');
   if(newUrl != null) {
+    console.log('On Pop State : Start Fetch Page', { isHashChanged });
     fetchPage(newUrl, false);
   }
   else {
+    console.log('On Pop State : Show Init', { isHashChanged });
     showContainer('init');
   }
 });
@@ -181,12 +202,17 @@ if(pageTitlesElement) {
     const targetElement = event.target;
     if(targetElement?.tagName !== 'BUTTON') return;
     
+    console.log('On Click Button : Start Fetch Page');
+    isHashChanged = false;
     const url = targetElement.dataset.url;
     fetchPage(url, true);
   });
   
   const initUrl = new URL(location.href).searchParams.get('u');
-  if(initUrl) fetchPage(initUrl, false);
+  if(initUrl) {
+    console.log('Init : Start Fetch Page');
+    fetchPage(initUrl, false);
+  }
 }
 
 
