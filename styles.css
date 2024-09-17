@@ -527,7 +527,7 @@ html[data-menu="show"] #unified-menu {
   margin: 0;
   padding: 0;
   color: var(--unified-colour-link-base);
-  font-family: var(--unified-font-family-sans-serif);
+  font-family: var(--unified-font-family-sans-serif) !important;
   text-align: left;
   text-decoration: underline;
   word-break: break-all;
@@ -592,7 +592,7 @@ html[data-menu="show"] #unified-menu {
   margin: 0;
   padding: 0;
   color: var(--unified-colour-link-base);
-  font-family: var(--unified-font-family-sans-serif);
+  font-family: var(--unified-font-family-sans-serif) !important;
   text-align: left;
   text-decoration: underline;
   word-break: break-all;
