@@ -478,6 +478,7 @@ html[data-menu="show"] #unified-menu {
 }
 
 #unified-menu-container {
+  position: relative;
   overflow-y: auto;
   height: 100%;
   padding: .5rem var(--unified-space-tiny) var(--unified-space-default);
@@ -502,6 +503,14 @@ html[data-menu="show"] #unified-menu {
 #unified-toggle-theme > svg {
   width: 44px;
   height: 44px;
+}
+
+#unified-go-to {
+  position: absolute;
+  top: .5rem;
+  right: var(--unified-space-tiny);
+  text-decoration: none;
+  opacity: .25;
 }
 
 #unified-menu-container > h2 {
