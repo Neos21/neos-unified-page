@@ -524,13 +524,14 @@ html[data-menu="show"] #unified-menu {
   width: 100%;
   outline: 0;
   border: 0;
-  margin: 0;
+  margin: 0 0 var(--unified-space-tiny);
   padding: 0;
   color: var(--unified-colour-link-base);
   font-family: var(--unified-font-family-sans-serif) !important;
   text-align: left;
   text-decoration: underline;
   word-break: break-all;
+  line-height: 1.25;
   background: transparent;
 }
 
@@ -589,13 +590,14 @@ html[data-menu="show"] #unified-menu {
   width: 100%;
   outline: 0;
   border: 0;
-  margin: 0;
+  margin: 0 0 var(--unified-space-tiny);
   padding: 0;
   color: var(--unified-colour-link-base);
   font-family: var(--unified-font-family-sans-serif) !important;
   text-align: left;
   text-decoration: underline;
   word-break: break-all;
+  line-height: 1.25;
   background: transparent;
 }
 

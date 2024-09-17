@@ -105,7 +105,9 @@ const showContainer = containerName => {
   }
 };
 
-const fetchPage = async (url, isPushState) => {
+let currentPage = new URL(location.href);
+
+const fetchPage = async url => {
   try {
     showContainer('loading');
     document.getElementById('unified-content-container').innerHTML = '';
@@ -117,30 +119,43 @@ const fetchPage = async (url, isPushState) => {
     
     document.title = json.title;
     document.getElementById('unified-content-container').innerHTML = processor.processSync(json.markdown);
-    
     showContainer('content');
-    
-    if(isPushState) {
-      const newUrl = new URL(location.href);
-      newUrl.searchParams.set('u', url);
-      newUrl.hash = '';  // Remove Hash
-      history.pushState(null, '', newUrl);
-      console.log('History Push State', { newUrl });
+    if(location.hash) {
+      document.querySelector(decodeURIComponent(location.hash))?.scrollIntoView();  // For Init View
+      console.log('Get Page : Scroll Into View : Element For Init View');
     }
-    else {
-      console.log('History No State');
-    }
+    currentPage = new URL(location.href);
     
-    if(location.hash) document.querySelector(decodeURIComponent(location.hash))?.scrollIntoView();
+    document.querySelectorAll('#unified-content-container a').forEach(linkElement => {
+      const currentOrigin = location.origin;
+      linkElement.addEventListener('click', event => {
+        try {
+          const targetUrl = new URL(linkElement.href);
+          if(targetUrl.origin !== currentOrigin) return true;  // Out Link
+          
+          event.preventDefault();
+          history.pushState(null, '', targetUrl.toString());
+          if(targetUrl.hash) {
+            document.querySelector(decodeURIComponent(targetUrl.hash))?.scrollIntoView();
+            currentPage = targetUrl;
+            console.log('On Click Link : Scroll Into View : Element');
+          }
+          else {
+            document.getElementById('unified-content-container').scrollIntoView();
+            currentPage = targetUrl;
+            console.log('On Click Link : Scroll Into View : Top');
+          }
+        }
+        catch(error) {
+          console.error('On Click Link : Unknown Error', error);
+          alert(`On Click Link : Unknown Error\n\n${error.toString()}`);
+        }
+      });
+    });
   }
   catch(error) {
     showContainer('init');
-    
-    const newUrl = new URL(location.href);
-    newUrl.searchParams.delete('u');
-    history.replaceState(null, '', newUrl);
-    
-    console.log('Failed To Get Page', error);
+    console.error('Failed To Get Page', error);
     alert(`Failed To Get Page\n\n${error.error}`);
   }
 };
@@ -149,31 +164,32 @@ const fetchPage = async (url, isPushState) => {
 // DOMContentLoaded
 // ================================================================================
 
-let isHashChanged = true;
-
-window.addEventListener('hashchange', () => {
-  isHashChanged = true;
-  console.log('On Hash Change', { isHashChanged });
-});
-
 window.addEventListener('popstate', event => {
-  console.log('On Pop State', { isHashChanged });
-  if(isHashChanged) {
-    event.preventDefault();
-    isHashChanged = false;
-    console.log('Is Hash Changed, Reset Flag', { isHashChanged });
-    return false;
-  }
+  console.log('On Pop State');
+  event.preventDefault();
   
   const targetUrl = new URL(location.href);
   const newUrl = targetUrl.searchParams.get('u');
-  if(newUrl != null) {
-    console.log('On Pop State : Start Fetch Page', { isHashChanged });
-    fetchPage(newUrl, false);
+  if(newUrl == null) {
+    console.log('On Pop State : Show Init');
+    showContainer('init');
+    currentPage = new URL(location.href);
+  }
+  else if(currentPage.searchParams.get('u') === newUrl) {
+    if(targetUrl.hash) {
+      document.querySelector(decodeURIComponent(targetUrl.hash))?.scrollIntoView();
+      currentPage = targetUrl;
+      console.log('On Pop State : Scroll Into View : Element');
+    }
+    else {
+      document.getElementById('unified-content-container').scrollIntoView();
+      currentPage = targetUrl;
+      console.log('On Pop State : Scroll Into View : Top');
+    }
   }
   else {
-    console.log('On Pop State : Show Init', { isHashChanged });
-    showContainer('init');
+    console.log('On Pop State : Start Fetch Page');
+    fetchPage(newUrl);
   }
 });
 
@@ -203,15 +219,19 @@ if(pageTitlesElement) {
     if(targetElement?.tagName !== 'BUTTON') return;
     
     console.log('On Click Button : Start Fetch Page');
-    isHashChanged = false;
     const url = targetElement.dataset.url;
-    fetchPage(url, true);
+    const newUrl = new URL(location.href);
+    newUrl.searchParams.set('u', url);
+    newUrl.hash = '';  // Remove Hash
+    history.pushState(null, '', newUrl);
+    console.log('History Push State', { newUrl });
+    fetchPage(url);
   });
   
   const initUrl = new URL(location.href).searchParams.get('u');
   if(initUrl) {
     console.log('Init : Start Fetch Page');
-    fetchPage(initUrl, false);
+    fetchPage(initUrl);
   }
 }
 
