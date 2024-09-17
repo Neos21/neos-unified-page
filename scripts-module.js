@@ -10,6 +10,7 @@ import rehypeStringify from 'https://esm.sh/rehype-stringify@10?bundle';  // htt
 
 // Prism.js
 import 'https://esm.sh/prismjs@1/components/prism-bash';  // https://github.com/denoland/deno_blog/issues/15#issuecomment-1181923643
+import 'https://esm.sh/prismjs@1/components/prism-json';
 import 'https://esm.sh/prismjs@1/components/prism-jsx';
 import 'https://esm.sh/prismjs@1/components/prism-markdown';
 import 'https://esm.sh/prismjs@1/components/prism-powershell';
