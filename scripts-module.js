@@ -105,7 +105,7 @@ const showContainer = containerName => {
   }
 };
 
-const fetchPage = async url => {
+const fetchPage = async (url, isPushState) => {
   try {
     showContainer('loading');
     document.getElementById('unified-content-container').innerHTML = '';
@@ -120,10 +120,12 @@ const fetchPage = async url => {
     
     showContainer('content');
     
-    const newUrl = new URL(location.href);
-    newUrl.searchParams.set('u', url);
-    if(newUrl.hash === '') newUrl.hash = '';  // Remove `#`
-    history.replaceState(null, '', newUrl);
+    if(isPushState) {
+      const newUrl = new URL(location.href);
+      newUrl.searchParams.set('u', url);
+      if(newUrl.hash === '') newUrl.hash = '';  // Remove `#`
+      history.pushState(null, '', newUrl);
+    }
     
     if(location.hash) document.querySelector(decodeURIComponent(location.hash))?.scrollIntoView();
   }
@@ -147,7 +149,7 @@ window.addEventListener('popstate', () => {
   const targetUrl = new URL(location.href);
   const newUrl = targetUrl.searchParams.get('u');
   if(newUrl != null) {
-    fetchPage(newUrl);
+    fetchPage(newUrl, false);
   }
   else {
     showContainer('init');
@@ -167,7 +169,7 @@ if(pageTitlesElement) {
   fetchPageTitles()
     .then(pageTitles => {
       pageTitlesElement.innerHTML = pageTitles.length
-        ? pageTitles.map(pageTitle => `<a href="#" class="unified-page-link" data-url="${pageTitle.url}">${sanitize(pageTitle.title)}</a>`).join('')
+        ? pageTitles.map(pageTitle => `<button type="button" class="unified-page-link" data-url="${pageTitle.url}">${sanitize(pageTitle.title)}</button>`).join('')
         : '<em>No Pages</em>';
     })
     .catch(error => {
@@ -177,14 +179,14 @@ if(pageTitlesElement) {
   
   pageTitlesElement.addEventListener('click', event => {
     const targetElement = event.target;
-    if(targetElement?.tagName !== 'A') return;
+    if(targetElement?.tagName !== 'BUTTON') return;
     
     const url = targetElement.dataset.url;
-    fetchPage(url);
+    fetchPage(url, true);
   });
   
   const initUrl = new URL(location.href).searchParams.get('u');
-  if(initUrl) fetchPage(initUrl);
+  if(initUrl) fetchPage(initUrl, false);
 }
 
 
@@ -230,7 +232,7 @@ if(adminPageTitlesElement) {
   const fetchAdminPageTitles = () => fetchPageTitles()
     .then(pageTitles => {
       adminPageTitlesElement.innerHTML = pageTitles.length
-        ? pageTitles.map(pageTitle => `<a href="#" class="unified-admin-page-link" data-url="${pageTitle.url}">${sanitize(pageTitle.title)}</a>`).join('')
+        ? pageTitles.map(pageTitle => `<button type="button" class="unified-admin-page-link" data-url="${pageTitle.url}">${sanitize(pageTitle.title)}</button>`).join('')
         : '<em>No Pages</em>';
     })
     .catch(error => {
@@ -244,7 +246,7 @@ if(adminPageTitlesElement) {
   adminPageTitlesElement.addEventListener('click', async event => {
     try {
       const targetElement = event.target;
-      if(targetElement?.tagName !== 'A') return;
+      if(targetElement?.tagName !== 'BUTTON') return;
       
       showAdminContainer('loading');
       const url = targetElement.dataset.url;

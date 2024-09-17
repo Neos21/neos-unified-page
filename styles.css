@@ -299,6 +299,7 @@ a:active,
 a:hover *,
 a:active * {
   color: var(--unified-colour-link-hover);
+  cursor: pointer;  /* For href-Less Anchor */
 }
 
 em,
@@ -518,7 +519,25 @@ html[data-menu="show"] #unified-menu {
 }
 
 .unified-page-link {
+  appearance: none;
   display: block;
+  width: 100%;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  color: var(--unified-colour-link-base);
+  font-family: var(--unified-font-family-sans-serif);
+  text-align: left;
+  text-decoration: underline;
+  word-break: break-all;
+  background: transparent;
+}
+
+.unified-page-link:hover,
+.unified-page-link:focus {
+  color: var(--unified-colour-link-hover);
+  background: transparent;
 }
 
 #unified-contents {
@@ -565,7 +584,25 @@ html[data-menu="show"] #unified-menu {
 }
 
 .unified-admin-page-link {
+  appearance: none;
   display: block;
+  width: 100%;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  color: var(--unified-colour-link-base);
+  font-family: var(--unified-font-family-sans-serif);
+  text-align: left;
+  text-decoration: underline;
+  word-break: break-all;
+  background: transparent;
+}
+
+.unified-admin-page-link:hover,
+.unified-admin-page-link:focus {
+  color: var(--unified-colour-link-hover);
+  background: transparent;
 }
 
 #unified-admin-init-container h1 {
