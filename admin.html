@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Neo's Unified Page</title>
+    <title>Neo's Unified Page - Admin</title>
     <link rel="icon" href="./favicon.ico">
     <link rel="stylesheet" href="./styles.css">
     <script src="./scripts-init.js"></script>
@@ -28,21 +28,45 @@
         </svg>
       </button>
       
-      <h2>Pages</h2>
-      <div id="unified-page-titles">
+      <h2>Credential</h2>
+      <p><input type="password" id="unified-admin-credential" value="" placeholder="Credential"></p>
+      
+      <h2>New Page</h2>
+      <p>
+        <input type="text" id="unified-admin-new-url" value="" placeholder="URL">
+        <input type="text" id="unified-admin-new-title" value="" placeholder="Title">
+        <button type="button" id="unified-admin-create">Create</button>
+      </p>
+      
+      <h2>Edit Pages</h2>
+      <p>
+        <button type="button" id="unified-admin-page-titles-reload">Reload</button>
+      </p>
+      <div id="unified-admin-page-titles">
         Loading...
       </div>
     </div>
   </div>
   <div id="unified-contents">
-    <div id="unified-init-container">
-      <h1>Neo's Unified Page</h1>
+    <div id="unified-admin-init-container">
+      <h1>Admin</h1>
     </div>
-    <div id="unified-loading-container">
+    
+    <div id="unified-admin-loading-container">
       Loading...
     </div>
-    <div id="unified-content-container">
-      <h1>Contents</h1>
+    
+    <div id="unified-admin-edit-container">
+      <div>
+        <h1>Edit Page</h1>
+        <div><button type="button" id="unified-admin-delete">Delete</button></div>
+      </div>
+      <div>
+        <input type="text" id="unified-admin-edit-url" readonly value="" placeholder="URL">
+        <button type="button" id="unified-admin-edit">Edit</button>
+      </div>
+      <input type="text" id="unified-admin-edit-title" value="" placeholder="Title">
+      <textarea id="unified-admin-edit-markdown"></textarea>
     </div>
   </div>
 </div>

@@ -12,6 +12,13 @@
     - テーブル作成
 
 
+## ローカル開発
+
+- ローカルサーバからリモートの D1 データベースへは接続できないため、ローカルの DB に自分でテーブルを作る必要がある
+    - `$ npm run wrangler d1 execute neos21 -- --local --command='CREATE TABLE IF NOT EXISTS pages (url PRIMARY KEY, title TEXT, markdown TEXT)'`
+    - `$ npm run wrangler d1 execute neos21 -- --local --command='INSERT INTO pages (url, title, markdown) VALUES ("example", "Example", "# Example")'`
+
+
 ## Links
 
 - [Neo's World](https://neos21.net/)

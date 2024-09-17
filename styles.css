@@ -25,9 +25,13 @@
   --unified-colour-code-base            : #ff0099;
   --unified-colour-code-background      : #f6f7f8;
   --unified-colour-menu-background      : #f2f4f7;
-  --unified-colour-header-link-base     : rgba(128, 128, 128, .3);
-  --unified-colour-header-link-hover    : rgba(128, 128, 128, .6);
-  --unified-colour-header-link-focus    : rgba(128, 128, 128, .9);
+  --unified-colour-header-link-base       : rgba(128, 128, 128, .3);
+  --unified-colour-header-link-hover      : rgba(128, 128, 128, .6);
+  --unified-colour-header-link-focus      : rgba(128, 128, 128, .9);
+  --unified-colour-textbox-background     : rgba(255, 255, 255, .5);
+  --unified-colour-button-background      : rgba(255, 255, 255, .5);
+  --unified-colour-button-background-hover: rgba(  0,   0,   0, .05);
+  --unified-colour-button-background-focus: rgba(  0,   0,   0, .1);
 }
 
 :root[data-theme="dark"] {
@@ -53,9 +57,13 @@
   --unified-colour-code-base            : #ff0099;
   --unified-colour-code-background      : #343a40;
   --unified-colour-menu-background      : #101920;
-  --unified-colour-header-link-base     : rgba(200, 200, 200, .3);
-  --unified-colour-header-link-hover    : rgba(200, 200, 200, .6);
-  --unified-colour-header-link-focus    : rgba(200, 200, 200, .9);
+  --unified-colour-header-link-base       : rgba(200, 200, 200, .3);
+  --unified-colour-header-link-hover      : rgba(200, 200, 200, .6);
+  --unified-colour-header-link-focus      : rgba(200, 200, 200, .9);
+  --unified-colour-textbox-background     : rgba(  0,   0,   0, .5);
+  --unified-colour-button-background      : rgba(  0,   0,   0, .5);
+  --unified-colour-button-background-hover: rgba(255, 255, 255, .05);
+  --unified-colour-button-background-focus: rgba(255, 255, 255, .1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -82,9 +90,13 @@
     --unified-colour-code-base            : #ff0099;
     --unified-colour-code-background      : #343a40;
     --unified-colour-menu-background      : #101920;
-    --unified-colour-header-link-base     : rgba(200, 200, 200, .3);
-    --unified-colour-header-link-hover    : rgba(200, 200, 200, .6);
-    --unified-colour-header-link-focus    : rgba(200, 200, 200, .9);
+    --unified-colour-header-link-base       : rgba(200, 200, 200, .3);
+    --unified-colour-header-link-hover      : rgba(200, 200, 200, .6);
+    --unified-colour-header-link-focus      : rgba(200, 200, 200, .9);
+    --unified-colour-textbox-background     : rgba(  0,   0,   0, .5);
+    --unified-colour-button-background      : rgba(  0,   0,   0, .5);
+    --unified-colour-button-background-hover: rgba(255, 255, 255, .05);
+    --unified-colour-button-background-focus: rgba(255, 255, 255, .1);
   }
 }
 
@@ -134,6 +146,7 @@ html {
   overflow: hidden scroll;
   overflow-wrap: break-word;
   color: var(--unified-colour-base);
+  font-size: 17px;
   font-family: var(--unified-font-family-sans-serif);
   text-underline-offset: .1em;
   text-decoration-skip-ink: none;
@@ -326,6 +339,47 @@ img {
   max-width: 100%;
 }
 
+input[type="text"],
+input[type="password"],
+textarea {
+  border: 1px solid #888888;
+  border-radius: 4px;
+  padding: .25rem .5rem;
+  color: inherit;
+  font-size: inherit;
+  font-family: var(--unified-font-family-monospace);
+  background: var(--unified-colour-textbox-background);
+}
+
+[readonly] {
+  outline: 0;
+  cursor: default;
+}
+
+textarea {
+  resize: none;
+}
+
+button {
+  border: 1px solid #888888;
+  border-radius: 4px;
+  padding: .25rem 1rem;
+  color: inherit;
+  font-size: inherit;
+  font-family: var(--unified-font-family-monospace);
+  word-break: normal;
+  background: var(--unified-colour-button-background);
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--unified-colour-button-background-hover);
+}
+
+button:focus {
+  background: var(--unified-colour-button-background-focus);
+}
+
 
 /* Page Design
  * ================================================================================ */
@@ -338,10 +392,10 @@ img {
   height: 44px;
   border: 0;
   border-radius: 50%;
+  padding: 0;
   overflow: hidden;
   background: #888888;
   outline: 0;
-  cursor: pointer;
   z-index: 3000;
 }
 
@@ -387,7 +441,6 @@ html[data-menu="show"] #unified-menu-background {
   border: 0;
   background: rgba(0, 0, 0, .75);
   z-index: 1000;
-  cursor: pointer;
 }
 
 @media (min-width: 992px) {
@@ -427,8 +480,9 @@ html[data-menu="show"] #unified-menu {
 #unified-menu-container {
   overflow-y: auto;
   height: 100%;
-  padding: .5rem .5rem 1rem;
+  padding: .5rem var(--unified-space-tiny) var(--unified-space-default);
   -webkit-overflow-scrolling: touch;
+  word-break: break-all;
 }
 
 #unified-toggle-theme {
@@ -454,15 +508,97 @@ html[data-menu="show"] #unified-menu {
   margin-top: var(--unified-space-small);
 }
 
+.unified-page-link {
+  display: block;
+}
+
 #unified-contents {
+  height: 100%;
   margin-left: 0;
-  padding: 1.5rem;
+  padding: 1.25rem;
 }
 
 @media (min-width: 992px) {
   #unified-contents {
     margin-left: var(--unified-menu-width);
   }
+}
+
+#unified-contents > div {
+  padding: var(--unified-space-small) 0 var(--unified-space-default);
+}
+
+#unified-contents > div > *:first-child {
+  margin-top: 0;
+}
+
+#unified-loading-container,
+#unified-content-container {
+  display: none;
+}
+
+
+/* Admin Design
+ * ================================================================================ */
+
+#unified-admin-credential,
+#unified-admin-create,
+#unified-admin-page-titles-reload {
+  display: block;
+  width: 100%;
+}
+
+#unified-admin-new-url,
+#unified-admin-new-title {
+  display: block;
+  margin-bottom: .5rem;
+  width: 100%;
+}
+
+.unified-admin-page-link {
+  display: block;
+}
+
+#unified-admin-init-container h1 {
+  margin: 0;
+  line-height: 1;
+}
+
+#unified-admin-loading-container {
+  display: none;
+}
+
+#unified-admin-edit-container {
+  display: none; /* To Grid */
+  grid-template-rows: auto auto auto 1fr;
+  height: 100%;
+}
+
+#unified-admin-edit-container h1 {
+  margin: 0;
+  line-height: 1;
+}
+
+#unified-admin-edit-container > div {
+  margin: 0 0 .75rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: .5rem;
+}
+
+#unified-admin-edit-container > div > div {  /* Delete Button */
+  align-self: end;
+}
+
+@media (min-width: 992px) {
+  #unified-admin-edit-container button {
+    padding-right: 2rem;
+    padding-left: 2rem;
+  }
+}
+
+#unified-admin-edit-title {
+  margin: 0 0 .75rem;
 }
 
 
