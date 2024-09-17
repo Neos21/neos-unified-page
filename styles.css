@@ -658,6 +658,7 @@ pre[class*="language-"] {
   background: #171c1d;
 }
 
+pre:has(> code[class*="language-"]),
 pre[class*="language-"],
 .language-css .token.string,
 .style .token.string,
