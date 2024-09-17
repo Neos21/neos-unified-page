@@ -116,6 +116,7 @@ const fetchPage = async url => {
     
     const newUrl = new URL(location.href);
     newUrl.searchParams.set('u', url);
+    if(newUrl.hash === '') newUrl.hash = '';  // Remove `#`
     history.replaceState(null, '', newUrl);
     
     if(location.hash) document.querySelector(decodeURIComponent(location.hash))?.scrollIntoView();
@@ -135,6 +136,17 @@ const fetchPage = async url => {
 
 // DOMContentLoaded
 // ================================================================================
+
+window.addEventListener('popstate', () => {
+  const targetUrl = new URL(location.href);
+  const newUrl = targetUrl.searchParams.get('u');
+  if(newUrl != null) {
+    fetchPage(newUrl);
+  }
+  else {
+    showContainer('init');
+  }
+});
 
 document.getElementById('unified-toggle-menu').addEventListener('click', () => {
   document.documentElement.dataset.menu = [undefined, null, ''].includes(document.documentElement.dataset.menu) ? 'show' : '';
