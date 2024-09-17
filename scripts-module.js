@@ -20,16 +20,6 @@ import 'https://esm.sh/prismjs@1/components/prism-typescript';
 import prismComponents from 'https://esm.sh/prismjs@1/components/index';  // https://unpkg.com/browse/prismjs@1.29.0/components/
 
 
-// Init Loading Screen
-// ================================================================================
-
-if(['', '/'].includes(location.pathname) && new URLSearchParams(location.search).get('u') != null) {
-  document.getElementById('unified-init-container'   ).style.display = 'none';
-  document.getElementById('unified-loading-container').style.display = 'block';
-  document.getElementById('unified-content-container').style.display = 'none';
-}
-
-
 // Load All Languages
 // ================================================================================
 

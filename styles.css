@@ -518,6 +518,10 @@ html[data-menu="show"] #unified-menu {
   margin-top: var(--unified-space-small);
 }
 
+#unified-menu-container > h2 a {
+  text-decoration: none;
+}
+
 .unified-page-link {
   appearance: none;
   display: block;

@@ -20,5 +20,12 @@
     document.getElementById('unified-toggle-theme').addEventListener('click', () => {
       setTheme(document.documentElement.dataset.theme === 'light');
     });
+    
+    // Init Loading Screen
+    if(['', '/'].includes(location.pathname) && new URLSearchParams(location.search).get('u') != null) {
+      document.getElementById('unified-init-container'   ).style.display = 'none';
+      document.getElementById('unified-loading-container').style.display = 'block';
+      document.getElementById('unified-content-container').style.display = 'none';
+    }
   });
 })();
