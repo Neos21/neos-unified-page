@@ -108,6 +108,8 @@ const showContainer = containerName => {
 const fetchPage = async url => {
   try {
     showContainer('loading');
+    document.getElementById('unified-content-container').innerHTML = '';
+    
     const response = await fetch(new URL(`/api/page?url=${url}`, location.origin).toString());
     if(!response.ok) throw await response.json();
     const json = await response.json();
